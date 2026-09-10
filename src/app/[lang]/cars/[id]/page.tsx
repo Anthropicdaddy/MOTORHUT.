@@ -3,16 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  Car,
-  MessageCircle,
-  Gauge,
-  Fuel,
-  Calendar,
-  Cog,
-} from "lucide-react";
-import { openWhatsApp } from "@/lib/utils";
+import { ArrowLeft, MessageCircle } from "lucide-react";
+import { openWhatsApp, formatPrice, formatMileage } from "@/lib/utils";
 
 interface CarType {
   id: string;
@@ -38,7 +30,7 @@ export default function CarDetailPage() {
     async function fetchCar() {
       const res = await fetch(`/api/public/cars/${params.id}`);
       if (!res.ok) {
-        setError("Car not found");
+        setError("Vehicle not found");
         setLoading(false);
         return;
       }
@@ -50,7 +42,7 @@ export default function CarDetailPage() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center text-muted-foreground">
+      <div className="max-w-5xl mx-auto px-4 py-20 text-center text-sm text-muted-foreground">
         Loading...
       </div>
     );
@@ -58,93 +50,82 @@ export default function CarDetailPage() {
 
   if (error || !car) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <Car className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
-        <p className="text-muted-foreground text-lg mb-4">
-          {error || "Car not found"}
-        </p>
-        <Link
-          href="/en/cars"
-          className="text-primary hover:underline inline-flex items-center gap-2"
-        >
-          <ArrowLeft className="h-4 w-4" /> Back to Inventory
+      <div className="max-w-5xl mx-auto px-4 py-20 text-center">
+        <p className="text-sm text-muted-foreground mb-4">{error || "Vehicle not found"}</p>
+        <Link href="/en/cars" className="text-sm text-foreground underline underline-offset-4">
+          Back to inventory
         </Link>
       </div>
     );
   }
 
-  const inquireMessage = `Hello! I'm interested in the ${car.year} ${car.make} ${car.model} (KES ${Number(car.price).toLocaleString()}). Is it still available?`;
+  const inquireMessage = `Hi, I'm interested in the ${car.year} ${car.make} ${car.model} listed at ${formatPrice(Number(car.price))}. Is it still available?`;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-8">
       <Link
         href="/en/cars"
-        className="inline-flex items-center gap-2 text-primary hover:underline mb-6"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
       >
-        <ArrowLeft className="h-4 w-4" /> Back to Inventory
+        <ArrowLeft className="h-3.5 w-3.5" />
+        Back to inventory
       </Link>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="aspect-[4/3] bg-card border border-border rounded-xl flex items-center justify-center">
-          {car.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={car.imageUrl}
-              alt={`${car.year} ${car.make} ${car.model}`}
-              className="w-full h-full object-cover rounded-xl"
-            />
-          ) : (
-            <Car className="h-24 w-24 text-muted-foreground/30" />
-          )}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="lg:col-span-3">
+          <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden">
+            {car.imageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={car.imageUrl}
+                alt={`${car.year} ${car.make} ${car.model}`}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground/20 text-6xl font-light">
+                {car.make[0]}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <h1 className="font-heading text-3xl md:text-4xl font-bold">
-              {car.year} {car.make} {car.model}
-            </h1>
-            <span
-              className={`text-xs px-3 py-1 rounded-full ${
-                car.status === "available"
-                  ? "bg-green-900/30 text-green-400"
-                  : car.status === "reserved"
-                    ? "bg-yellow-900/30 text-yellow-400"
-                    : "bg-red-900/30 text-red-400"
-              }`}
-            >
-              {car.status}
-            </span>
+        <div className="lg:col-span-2">
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-1">
+              <h1 className="text-2xl font-semibold tracking-tight">
+                {car.year} {car.make} {car.model}
+              </h1>
+              {car.status !== "available" && (
+                <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                  {car.status}
+                </span>
+              )}
+            </div>
+            <p className="text-2xl font-semibold">{formatPrice(Number(car.price))}</p>
           </div>
 
-          <p className="text-primary font-semibold text-3xl mb-6">
-            KES {Number(car.price).toLocaleString()}
-          </p>
-
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Calendar className="h-5 w-5 text-primary" />
-              <span>{car.year}</span>
+          <div className="grid grid-cols-2 gap-4 text-sm mb-6">
+            <div>
+              <p className="text-muted-foreground text-xs mb-0.5">Mileage</p>
+              <p className="font-medium">{formatMileage(car.mileage)}</p>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Gauge className="h-5 w-5 text-primary" />
-              <span>{car.mileage.toLocaleString()} km</span>
+            <div>
+              <p className="text-muted-foreground text-xs mb-0.5">Transmission</p>
+              <p className="font-medium">{car.transmission}</p>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Cog className="h-5 w-5 text-primary" />
-              <span>{car.transmission}</span>
+            <div>
+              <p className="text-muted-foreground text-xs mb-0.5">Fuel</p>
+              <p className="font-medium">{car.fuel}</p>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Fuel className="h-5 w-5 text-primary" />
-              <span>{car.fuel}</span>
+            <div>
+              <p className="text-muted-foreground text-xs mb-0.5">Year</p>
+              <p className="font-medium">{car.year}</p>
             </div>
           </div>
 
           {car.description && (
-            <div className="mb-6">
-              <h2 className="font-heading text-xl font-semibold mb-2">
-                Description
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
+            <div className="mb-8">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {car.description}
               </p>
             </div>
@@ -152,11 +133,14 @@ export default function CarDetailPage() {
 
           <button
             onClick={() => openWhatsApp(inquireMessage)}
-            className="w-full bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 text-lg"
+            className="w-full bg-foreground text-background px-6 py-3 rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2"
           >
-            <MessageCircle className="h-5 w-5" />
-            Inquire on WhatsApp
+            <MessageCircle className="h-4 w-4" />
+            Inquire via WhatsApp
           </button>
+          <p className="text-xs text-muted-foreground text-center mt-3">
+            Usually responds within minutes
+          </p>
         </div>
       </div>
     </div>

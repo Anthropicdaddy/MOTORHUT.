@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Search, Car } from "lucide-react";
+import { Search } from "lucide-react";
+import { formatPrice, formatMileage } from "@/lib/utils";
 
 interface CarType {
   id: string;
@@ -49,12 +50,15 @@ export default function CarsPage() {
   }, [page, search, maxPrice]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="font-heading text-3xl md:text-4xl font-bold mb-8">
-        Our <span className="text-primary">Inventory</span>
-      </h1>
+    <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="mb-8">
+        <h1 className="text-3xl font-semibold tracking-tight mb-1">Inventory</h1>
+        <p className="text-sm text-muted-foreground">
+          {cars.length > 0 ? `${cars.length} vehicles available` : "Browse our selection"}
+        </p>
+      </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row gap-3 mb-8">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
@@ -65,29 +69,28 @@ export default function CarsPage() {
               setSearch(e.target.value);
               setPage(1);
             }}
-            className="w-full bg-card border border-border rounded-lg pl-10 pr-4 py-2 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full bg-white border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20"
           />
         </div>
         <input
           type="number"
-          placeholder="Max price (KES)"
+          placeholder="Max price"
           value={maxPrice}
           onChange={(e) => {
             setMaxPrice(e.target.value);
             setPage(1);
           }}
-          className="bg-card border border-border rounded-lg px-4 py-2 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary w-full sm:w-48"
+          className="bg-white border border-border rounded-lg px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20 w-full sm:w-40"
         />
       </div>
 
       {loading ? (
-        <div className="text-center py-20 text-muted-foreground">
-          Loading cars...
+        <div className="text-center py-20 text-sm text-muted-foreground">
+          Loading...
         </div>
       ) : cars.length === 0 ? (
-        <div className="text-center py-20 text-muted-foreground">
-          <Car className="h-16 w-16 mx-auto mb-4 opacity-50" />
-          <p className="text-lg">No cars found matching your criteria.</p>
+        <div className="text-center py-20 text-sm text-muted-foreground">
+          No vehicles found.
         </div>
       ) : (
         <>
@@ -96,68 +99,57 @@ export default function CarsPage() {
               <Link
                 key={car.id}
                 href={`/en/cars/${car.id}`}
-                className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-colors group"
+                className="group"
               >
-                <div className="aspect-[4/3] bg-muted flex items-center justify-center">
+                <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden mb-3">
                   {car.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={car.imageUrl}
                       alt={`${car.year} ${car.make} ${car.model}`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
                     />
                   ) : (
-                    <Car className="h-16 w-16 text-muted-foreground/50" />
+                    <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 text-4xl">
+                      {car.make[0]}
+                    </div>
                   )}
                 </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-heading text-lg font-semibold group-hover:text-primary transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h3 className="text-sm font-medium group-hover:underline">
                       {car.year} {car.make} {car.model}
                     </h3>
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        car.status === "available"
-                          ? "bg-green-900/30 text-green-400"
-                          : car.status === "reserved"
-                            ? "bg-yellow-900/30 text-yellow-400"
-                            : "bg-red-900/30 text-red-400"
-                      }`}
-                    >
-                      {car.status}
-                    </span>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {formatMileage(car.mileage)} · {car.transmission} · {car.fuel}
+                    </p>
                   </div>
-                  <p className="text-primary font-semibold text-lg mb-2">
-                    KES {Number(car.price).toLocaleString()}
+                  <p className="text-sm font-semibold whitespace-nowrap">
+                    {formatPrice(Number(car.price))}
                   </p>
-                  <div className="flex gap-4 text-sm text-muted-foreground">
-                    <span>{car.mileage.toLocaleString()} km</span>
-                    <span>{car.transmission}</span>
-                    <span>{car.fuel}</span>
-                  </div>
                 </div>
               </Link>
             ))}
           </div>
 
           {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-8">
+            <div className="flex items-center justify-center gap-4 mt-10 text-sm">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-4 py-2 bg-card border border-border rounded-lg text-foreground disabled:opacity-50 hover:border-primary transition-colors"
+                className="text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground transition-colors"
               >
-                Previous
+                ← Previous
               </button>
-              <span className="px-4 py-2 text-muted-foreground">
-                Page {page} of {totalPages}
+              <span className="text-muted-foreground">
+                {page} / {totalPages}
               </span>
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="px-4 py-2 bg-card border border-border rounded-lg text-foreground disabled:opacity-50 hover:border-primary transition-colors"
+                className="text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground transition-colors"
               >
-                Next
+                Next →
               </button>
             </div>
           )}

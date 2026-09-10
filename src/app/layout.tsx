@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
-import { Montserrat, Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Motor Hut - Premium Car Dealership",
+  title: "Motor Hut — Premium Used Cars in Los Angeles",
   description:
-    "Premium pre-owned vehicles in Kenya. Quality cars, transparent deals, and exceptional service.",
+    "Quality pre-owned vehicles in Los Angeles. Transparent pricing, thorough inspections, and a no-pressure buying experience.",
 };
 
 export default function RootLayout({
@@ -24,10 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${montserrat.variable} ${playfair.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

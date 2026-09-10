@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PlusCircle, Pencil, Trash2, X, Save, Car } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { PlusCircle, Pencil, Trash2, X, Save } from "lucide-react";
+import { formatPrice, formatMileage } from "@/lib/utils";
 
 interface CarType {
   id: string;
@@ -24,17 +27,18 @@ const emptyCar = {
   price: "",
   mileage: 0,
   transmission: "Automatic",
-  fuel: "Petrol",
+  fuel: "Gasoline",
   status: "available",
   imageUrl: "",
   description: "",
 };
 
-export default function AdminCarsPage() {
+function AdminCarsContent() {
+  const searchParams = useSearchParams();
   const [cars, setCars] = useState<CarType[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(searchParams.get("action") === "add");
   const [form, setForm] = useState(emptyCar);
 
   useEffect(() => {
@@ -77,7 +81,7 @@ export default function AdminCarsPage() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this car?")) return;
+    if (!confirm("Delete this car?")) return;
     await fetch(`/api/admin/cars/${id}`, { method: "DELETE" });
     fetchCars();
   }
@@ -102,9 +106,7 @@ export default function AdminCarsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="font-heading text-3xl font-bold">
-          Car <span className="text-primary">Management</span>
-        </h1>
+        <h1 className="text-xl font-semibold tracking-tight">Cars</h1>
         {!showForm && (
           <button
             onClick={() => {
@@ -112,19 +114,19 @@ export default function AdminCarsPage() {
               setEditingId(null);
               setShowForm(true);
             }}
-            className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2"
+            className="bg-foreground text-background px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center gap-1.5"
           >
-            <PlusCircle className="h-4 w-4" />
-            Add Car
+            <PlusCircle className="h-3.5 w-3.5" />
+            Add
           </button>
         )}
       </div>
 
       {showForm && (
-        <div className="bg-card border border-border rounded-xl p-6 mb-8">
+        <div className="border border-border rounded-lg p-5 mb-8 bg-white">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-heading text-xl font-semibold">
-              {editingId ? "Edit Car" : "Add New Car"}
+            <h2 className="text-sm font-semibold">
+              {editingId ? "Edit car" : "New car"}
             </h2>
             <button
               onClick={() => {
@@ -133,101 +135,95 @@ export default function AdminCarsPage() {
               }}
               className="text-muted-foreground hover:text-foreground"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Make *</label>
+              <label className="block text-xs font-medium mb-1">Make *</label>
               <input
                 type="text"
                 value={form.make}
                 onChange={(e) => setForm({ ...form, make: e.target.value })}
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
                 placeholder="Toyota"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Model *</label>
+              <label className="block text-xs font-medium mb-1">Model *</label>
               <input
                 type="text"
                 value={form.model}
                 onChange={(e) => setForm({ ...form, model: e.target.value })}
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Premio"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                placeholder="Camry"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Year *</label>
+              <label className="block text-xs font-medium mb-1">Year *</label>
               <input
                 type="number"
                 value={form.year}
                 onChange={(e) =>
                   setForm({ ...form, year: parseInt(e.target.value) })
                 }
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Price (KES) *
-              </label>
+              <label className="block text-xs font-medium mb-1">Price (USD) *</label>
               <input
                 type="number"
                 value={form.price}
                 onChange={(e) => setForm({ ...form, price: e.target.value })}
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="2500000"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                placeholder="25000"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Mileage (km) *
-              </label>
+              <label className="block text-xs font-medium mb-1">Mileage *</label>
               <input
                 type="number"
                 value={form.mileage}
                 onChange={(e) =>
                   setForm({ ...form, mileage: parseInt(e.target.value) })
                 }
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Transmission *
-              </label>
+              <label className="block text-xs font-medium mb-1">Transmission *</label>
               <select
                 value={form.transmission}
                 onChange={(e) =>
                   setForm({ ...form, transmission: e.target.value })
                 }
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
               >
                 <option>Automatic</option>
                 <option>Manual</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Fuel *</label>
+              <label className="block text-xs font-medium mb-1">Fuel *</label>
               <select
                 value={form.fuel}
                 onChange={(e) => setForm({ ...form, fuel: e.target.value })}
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
               >
-                <option>Petrol</option>
+                <option>Gasoline</option>
                 <option>Diesel</option>
                 <option>Hybrid</option>
                 <option>Electric</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Status *</label>
+              <label className="block text-xs font-medium mb-1">Status *</label>
               <select
                 value={form.status}
                 onChange={(e) => setForm({ ...form, status: e.target.value })}
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
               >
                 <option value="available">Available</option>
                 <option value="reserved">Reserved</option>
@@ -235,42 +231,38 @@ export default function AdminCarsPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Image URL
-              </label>
+              <label className="block text-xs font-medium mb-1">Image URL</label>
               <input
                 type="url"
                 value={form.imageUrl}
                 onChange={(e) =>
                   setForm({ ...form, imageUrl: e.target.value })
                 }
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
                 placeholder="https://..."
               />
             </div>
             <div className="md:col-span-2 lg:col-span-3">
-              <label className="block text-sm font-medium mb-1">
-                Description
-              </label>
+              <label className="block text-xs font-medium mb-1">Description</label>
               <textarea
                 rows={3}
                 value={form.description}
                 onChange={(e) =>
                   setForm({ ...form, description: e.target.value })
                 }
-                className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                placeholder="Optional car description..."
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20 resize-none"
+                placeholder="Optional description..."
               />
             </div>
           </div>
 
-          <div className="flex gap-3 mt-4">
+          <div className="flex gap-2 mt-4">
             <button
               onClick={handleSave}
               disabled={!form.make || !form.model || !form.price}
-              className="bg-primary text-primary-foreground px-6 py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2 disabled:opacity-50"
+              className="bg-foreground text-background px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center gap-1.5 disabled:opacity-30"
             >
-              <Save className="h-4 w-4" />
+              <Save className="h-3.5 w-3.5" />
               {editingId ? "Update" : "Save"}
             </button>
             <button
@@ -278,7 +270,7 @@ export default function AdminCarsPage() {
                 setShowForm(false);
                 setEditingId(null);
               }}
-              className="border border-border px-6 py-2 rounded-lg text-foreground hover:bg-muted transition-colors"
+              className="border border-border px-4 py-1.5 rounded-lg text-sm text-muted-foreground hover:bg-muted transition-colors"
             >
               Cancel
             </button>
@@ -287,32 +279,31 @@ export default function AdminCarsPage() {
       )}
 
       {loading ? (
-        <div className="text-center py-20 text-muted-foreground">
-          Loading cars...
+        <div className="text-center py-20 text-sm text-muted-foreground">
+          Loading...
         </div>
       ) : cars.length === 0 ? (
-        <div className="text-center py-20 text-muted-foreground">
-          <Car className="h-16 w-16 mx-auto mb-4 opacity-50" />
-          <p className="text-lg">No cars in inventory yet.</p>
+        <div className="text-center py-20 text-sm text-muted-foreground">
+          No cars yet.
         </div>
       ) : (
-        <div className="bg-card border border-border rounded-xl overflow-hidden">
-          <table className="w-full">
+        <div className="border border-border rounded-lg overflow-hidden bg-white">
+          <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">
+              <tr className="border-b border-border bg-muted/50">
+                <th className="text-left px-4 py-2 font-medium text-muted-foreground">
                   Car
                 </th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">
+                <th className="text-left px-4 py-2 font-medium text-muted-foreground">
                   Price
                 </th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">
+                <th className="text-left px-4 py-2 font-medium text-muted-foreground">
                   Mileage
                 </th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">
+                <th className="text-left px-4 py-2 font-medium text-muted-foreground">
                   Status
                 </th>
-                <th className="text-right px-4 py-3 text-sm font-medium text-muted-foreground">
+                <th className="text-right px-4 py-2 font-medium text-muted-foreground">
                   Actions
                 </th>
               </tr>
@@ -323,46 +314,46 @@ export default function AdminCarsPage() {
                   key={car.id}
                   className="border-b border-border last:border-0"
                 >
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-2.5">
                     <p className="font-medium">
                       {car.year} {car.make} {car.model}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       {car.transmission} · {car.fuel}
                     </p>
                   </td>
-                  <td className="px-4 py-3 text-primary font-semibold">
-                    KES {Number(car.price).toLocaleString()}
+                  <td className="px-4 py-2.5 font-medium">
+                    {formatPrice(Number(car.price))}
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {car.mileage.toLocaleString()} km
+                  <td className="px-4 py-2.5 text-muted-foreground">
+                    {formatMileage(car.mileage)}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-2.5">
                     <span
-                      className={`text-xs px-2 py-1 rounded-full ${
+                      className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full ${
                         car.status === "available"
-                          ? "bg-green-900/30 text-green-400"
+                          ? "bg-green-50 text-green-700"
                           : car.status === "reserved"
-                            ? "bg-yellow-900/30 text-yellow-400"
-                            : "bg-red-900/30 text-red-400"
+                            ? "bg-amber-50 text-amber-700"
+                            : "bg-red-50 text-red-700"
                       }`}
                     >
                       {car.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                  <td className="px-4 py-2.5 text-right">
+                    <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => startEdit(car)}
-                        className="p-1.5 text-muted-foreground hover:text-primary transition-colors"
+                        className="p-1 text-muted-foreground hover:text-foreground transition-colors"
                       >
-                        <Pencil className="h-4 w-4" />
+                        <Pencil className="h-3.5 w-3.5" />
                       </button>
                       <button
                         onClick={() => handleDelete(car.id)}
-                        className="p-1.5 text-muted-foreground hover:text-red-400 transition-colors"
+                        className="p-1 text-muted-foreground hover:text-red-600 transition-colors"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </td>
@@ -373,5 +364,13 @@ export default function AdminCarsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AdminCarsPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-20 text-sm text-muted-foreground">Loading...</div>}>
+      <AdminCarsContent />
+    </Suspense>
   );
 }

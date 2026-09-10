@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Car, Shield, Handshake, MessageCircle } from "lucide-react";
 import { openWhatsApp } from "@/lib/utils";

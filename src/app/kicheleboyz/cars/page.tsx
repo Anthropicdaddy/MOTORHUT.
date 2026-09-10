@@ -146,7 +146,7 @@ function AdminCarsContent() {
                 type="text"
                 value={form.make}
                 onChange={(e) => setForm({ ...form, make: e.target.value })}
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
                 placeholder="Toyota"
               />
             </div>
@@ -156,7 +156,7 @@ function AdminCarsContent() {
                 type="text"
                 value={form.model}
                 onChange={(e) => setForm({ ...form, model: e.target.value })}
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
                 placeholder="Camry"
               />
             </div>
@@ -168,7 +168,7 @@ function AdminCarsContent() {
                 onChange={(e) =>
                   setForm({ ...form, year: parseInt(e.target.value) })
                 }
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
               />
             </div>
             <div>
@@ -177,7 +177,7 @@ function AdminCarsContent() {
                 type="number"
                 value={form.price}
                 onChange={(e) => setForm({ ...form, price: e.target.value })}
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
                 placeholder="25000"
               />
             </div>
@@ -189,7 +189,7 @@ function AdminCarsContent() {
                 onChange={(e) =>
                   setForm({ ...form, mileage: parseInt(e.target.value) })
                 }
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
               />
             </div>
             <div>
@@ -199,7 +199,7 @@ function AdminCarsContent() {
                 onChange={(e) =>
                   setForm({ ...form, transmission: e.target.value })
                 }
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
               >
                 <option>Automatic</option>
                 <option>Manual</option>
@@ -210,7 +210,7 @@ function AdminCarsContent() {
               <select
                 value={form.fuel}
                 onChange={(e) => setForm({ ...form, fuel: e.target.value })}
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
               >
                 <option>Gasoline</option>
                 <option>Diesel</option>
@@ -223,7 +223,7 @@ function AdminCarsContent() {
               <select
                 value={form.status}
                 onChange={(e) => setForm({ ...form, status: e.target.value })}
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
               >
                 <option value="available">Available</option>
                 <option value="reserved">Reserved</option>
@@ -238,7 +238,7 @@ function AdminCarsContent() {
                 onChange={(e) =>
                   setForm({ ...form, imageUrl: e.target.value })
                 }
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
                 placeholder="https://..."
               />
             </div>
@@ -250,7 +250,7 @@ function AdminCarsContent() {
                 onChange={(e) =>
                   setForm({ ...form, description: e.target.value })
                 }
-                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20 resize-none"
+                className="w-full bg-white border border-border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20 resize-none"
                 placeholder="Optional description..."
               />
             </div>

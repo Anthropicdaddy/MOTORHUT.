@@ -65,7 +65,7 @@ export default function CarDetailPage() {
     <div className="max-w-5xl mx-auto px-4 py-8">
       <Link
         href="/en/cars"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-green-light px-2 py-1 -mx-2 rounded transition-colors mb-8"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         Back to inventory
@@ -133,7 +133,7 @@ export default function CarDetailPage() {
 
           <button
             onClick={() => openWhatsApp(inquireMessage)}
-            className="w-full bg-foreground text-background px-6 py-3 rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-green-btn text-green-btn-text px-6 py-3 rounded-lg text-sm font-medium hover:bg-green-btn-hover transition-colors flex items-center justify-center gap-2"
           >
             <MessageCircle className="h-4 w-4" />
             Inquire via WhatsApp

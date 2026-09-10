@@ -69,7 +69,7 @@ export default function CarsPage() {
               setSearch(e.target.value);
               setPage(1);
             }}
-            className="w-full bg-white border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20"
+            className="w-full bg-white border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
           />
         </div>
         <input
@@ -80,7 +80,7 @@ export default function CarsPage() {
             setMaxPrice(e.target.value);
             setPage(1);
           }}
-          className="bg-white border border-border rounded-lg px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20 w-full sm:w-40"
+          className="bg-white border border-border rounded-lg px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-green-btn-text/20 w-full sm:w-40"
         />
       </div>
 
@@ -137,7 +137,7 @@ export default function CarsPage() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground transition-colors"
+                className="text-muted-foreground hover:text-foreground hover:bg-green-light disabled:opacity-30 disabled:hover:bg-transparent transition-colors px-2 py-1 -mx-2 rounded"
               >
                 ← Previous
               </button>
@@ -147,7 +147,7 @@ export default function CarsPage() {
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground transition-colors"
+                className="text-muted-foreground hover:text-foreground hover:bg-green-light disabled:opacity-30 disabled:hover:bg-transparent transition-colors px-2 py-1 -mx-2 rounded"
               >
                 Next →
               </button>

@@ -19,22 +19,22 @@ export function Footer() {
             <p className="font-semibold tracking-tight mb-3">Links</p>
             <ul className="space-y-2 text-muted-foreground">
               <li>
-                <Link href="/en/cars" className="hover:text-foreground transition-colors">
+                <Link href="/en/cars" className="hover:text-foreground hover:bg-green-light px-1 -mx-1 rounded transition-colors">
                   Inventory
                 </Link>
               </li>
               <li>
-                <Link href="/en/services" className="hover:text-foreground transition-colors">
+                <Link href="/en/services" className="hover:text-foreground hover:bg-green-light px-1 -mx-1 rounded transition-colors">
                   Services
                 </Link>
               </li>
               <li>
-                <Link href="/en/about" className="hover:text-foreground transition-colors">
+                <Link href="/en/about" className="hover:text-foreground hover:bg-green-light px-1 -mx-1 rounded transition-colors">
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/en/contact" className="hover:text-foreground transition-colors">
+                <Link href="/en/contact" className="hover:text-foreground hover:bg-green-light px-1 -mx-1 rounded transition-colors">
                   Contact
                 </Link>
               </li>
@@ -46,7 +46,7 @@ export function Footer() {
               onClick={() =>
                 openWhatsApp("Hello! I'm interested in your inventory.")
               }
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground hover:bg-green-light px-1 -mx-1 rounded transition-colors"
             >
               <Phone className="h-3.5 w-3.5" />
               <span>(254) 707-242-805</span>

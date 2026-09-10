@@ -22,7 +22,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/en/cars"
-              className="bg-foreground text-background px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors"
+              className="bg-green-btn text-green-btn-text px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-green-btn-hover transition-colors"
             >
               Browse Inventory
             </Link>
@@ -59,15 +59,15 @@ export default function HomePage() {
             <div>
               <h3 className="text-sm font-semibold mb-2">No-pressure experience</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-            We&apos;re here to help you find the right car, not to push you
-            into a decision. Take your time.
+                We&apos;re here to help you find the right car, not to push you
+                into a decision. Take your time.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-muted">
+      <section className="py-20 px-4 bg-green-light">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-semibold tracking-tight mb-3">
             Ready to find your next car?
@@ -79,7 +79,7 @@ export default function HomePage() {
             onClick={() =>
               openWhatsApp("Hi, I'm looking for a car. Can you help?")
             }
-            className="bg-foreground text-background px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2"
+            className="bg-green-btn text-green-btn-text px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-green-btn-hover transition-colors inline-flex items-center gap-2"
           >
             <MessageCircle className="h-4 w-4" />
             Get in Touch

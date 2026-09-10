@@ -82,7 +82,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-muted">
+      <section className="py-16 px-4 bg-green-light">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-lg font-semibold mb-2">Questions about financing?</h2>
           <p className="text-sm text-muted-foreground mb-6">
@@ -92,7 +92,7 @@ export default function ServicesPage() {
             onClick={() =>
               openWhatsApp("Hi, I'd like to learn more about your financing options.")
             }
-            className="bg-foreground text-background px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors inline-flex items-center gap-2"
+            className="bg-green-btn text-green-btn-text px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-green-btn-hover transition-colors inline-flex items-center gap-2"
           >
             <MessageCircle className="h-4 w-4" />
             Chat with us

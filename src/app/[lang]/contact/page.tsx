@@ -30,10 +30,10 @@ export default function ContactPage() {
           <div className="space-y-3 mb-8">
             <button
               onClick={() => openWhatsApp("Hi, I have a question about Motor Hut.")}
-              className="w-full flex items-center gap-3 p-4 border border-border rounded-lg text-left hover:bg-muted transition-colors text-sm"
+              className="w-full flex items-center gap-3 p-4 border border-border rounded-lg text-left hover:bg-green-light transition-colors text-sm"
             >
-              <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                <MessageCircle className="h-4 w-4" />
+              <div className="w-9 h-9 rounded-full bg-green-light flex items-center justify-center flex-shrink-0">
+                <MessageCircle className="h-4 w-4 text-green-btn-text" />
               </div>
               <div>
                 <p className="font-medium">WhatsApp</p>
@@ -42,10 +42,10 @@ export default function ContactPage() {
             </button>
             <a
               href="tel:+1254707242805"
-              className="w-full flex items-center gap-3 p-4 border border-border rounded-lg text-left hover:bg-muted transition-colors text-sm"
+              className="w-full flex items-center gap-3 p-4 border border-border rounded-lg text-left hover:bg-green-light transition-colors text-sm"
             >
-              <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                <Phone className="h-4 w-4" />
+              <div className="w-9 h-9 rounded-full bg-green-light flex items-center justify-center flex-shrink-0">
+                <Phone className="h-4 w-4 text-green-btn-text" />
               </div>
               <div>
                 <p className="font-medium">Phone</p>
@@ -92,7 +92,7 @@ export default function ContactPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                  className="w-full bg-white border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
                   placeholder="Your name"
                 />
               </div>
@@ -106,7 +106,7 @@ export default function ContactPage() {
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-white border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                  className="w-full bg-white border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20"
                   placeholder="(555) 123-4567"
                 />
               </div>
@@ -120,13 +120,13 @@ export default function ContactPage() {
                   rows={4}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full bg-white border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20 resize-none"
+                  className="w-full bg-white border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-btn-text/20 resize-none"
                   placeholder="What are you looking for?"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full bg-foreground text-background px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors"
+                className="w-full bg-green-btn text-green-btn-text px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-green-btn-hover transition-colors"
               >
                 Send via WhatsApp
               </button>

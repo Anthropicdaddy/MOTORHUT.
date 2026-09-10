@@ -18,25 +18,25 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-8 text-sm">
             <Link
               href="/en/cars"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground hover:bg-green-light px-2 py-1 -mx-2 rounded transition-colors"
             >
               Inventory
             </Link>
             <Link
               href="/en/services"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground hover:bg-green-light px-2 py-1 -mx-2 rounded transition-colors"
             >
               Services
             </Link>
             <Link
               href="/en/about"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground hover:bg-green-light px-2 py-1 -mx-2 rounded transition-colors"
             >
               About
             </Link>
             <Link
               href="/en/contact"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground hover:bg-green-light px-2 py-1 -mx-2 rounded transition-colors"
             >
               Contact
             </Link>
@@ -53,31 +53,31 @@ export function Navbar() {
 
       {isOpen && (
         <div className="md:hidden border-t border-border bg-white">
-          <div className="px-4 py-4 space-y-3 text-sm">
+          <div className="px-4 py-4 space-y-1 text-sm">
             <Link
               href="/en/cars"
-              className="block text-muted-foreground hover:text-foreground transition-colors"
+              className="block text-muted-foreground hover:text-foreground hover:bg-green-light px-3 py-2 rounded transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Inventory
             </Link>
             <Link
               href="/en/services"
-              className="block text-muted-foreground hover:text-foreground transition-colors"
+              className="block text-muted-foreground hover:text-foreground hover:bg-green-light px-3 py-2 rounded transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Services
             </Link>
             <Link
               href="/en/about"
-              className="block text-muted-foreground hover:text-foreground transition-colors"
+              className="block text-muted-foreground hover:text-foreground hover:bg-green-light px-3 py-2 rounded transition-colors"
               onClick={() => setIsOpen(false)}
             >
               About
             </Link>
             <Link
               href="/en/contact"
-              className="block text-muted-foreground hover:text-foreground transition-colors"
+              className="block text-muted-foreground hover:text-foreground hover:bg-green-light px-3 py-2 rounded transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Contact
